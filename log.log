@@ -1,0 +1,7 @@
+{"Factorial":479001600,"Fibonacci":144,"level":"info","msg":"Input Number is 12","time":"2021-11-02T14:30:31+05:30"}
+{"Factorial":479001600,"Fibonacci":144,"level":"info","msg":"Input Number is 12","time":"2021-11-02T14:34:15+05:30"}
+{"Factorial":479001600,"Fibonacci":144,"level":"info","msg":"Input Number is 12","time":"2021-11-02T14:39:10+05:30"}
+{"level":"info","msg":"CHILD 1 Log Message : dd.service=test-service dd.env=test-env dd.trace_id=\"2257341803951841454\" dd.span_id=\"244774600598471317\"","time":"2021-11-02T14:39:10+05:30"}
+{"Factorial":479001600,"Fibonacci":144,"dd.span_id":531527469924597413,"dd.trace_id":5176033910654307550,"level":"info","msg":"Input Number is 12","time":"2021-11-02T14:45:19+05:30"}
+{"Factorial":479001600,"Fibonacci":144,"dd.span_id":4825864132598809229,"dd.trace_id":1796715553155855133,"level":"info","msg":"Input Number is 12","time":"2021-11-02T14:46:47+05:30"}
+{"level":"info","msg":"CHILD 1 Log Message : dd.service=test-service dd.env=test-env dd.trace_id=\"1796715553155855133\" dd.span_id=\"4825864132598809229\"","time":"2021-11-02T14:46:47+05:30"}

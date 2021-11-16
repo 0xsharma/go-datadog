@@ -2,10 +2,11 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
+	"os"
 	"time"
 
+	log "github.com/sirupsen/logrus"
 	muxtrace "gopkg.in/DataDog/dd-trace-go.v1/contrib/gorilla/mux"
 	"gopkg.in/DataDog/dd-trace-go.v1/ddtrace/tracer"
 	"gopkg.in/DataDog/dd-trace-go.v1/profiler"
@@ -13,6 +14,23 @@ import (
 
 func main() {
 	// rules := []tracer.SamplingRule{tracer.RateRule(1)}
+
+	f, err := os.OpenFile("log.log", os.O_APPEND|os.O_CREATE|os.O_RDWR, 0666)
+	if err != nil {
+		fmt.Printf("error opening file: %v", err)
+	}
+
+	// don't forget to close it
+	defer f.Close()
+
+	// Log as JSON instead of the default ASCII formatter.
+	log.SetFormatter(&log.JSONFormatter{})
+
+	// Output to stderr instead of stdout, could also be a file.
+	log.SetOutput(f)
+
+	// Only log the warning severity or above.
+	log.SetLevel(log.DebugLevel)
 
 	tracer.Start(
 		// tracer.WithSampling(rules),
@@ -27,13 +45,6 @@ func main() {
 		profiler.WithProfileTypes(
 			profiler.CPUProfile,
 			profiler.HeapProfile,
-
-			// The profiles below are disabled by
-			// default to keep overhead low, but
-			// can be enabled as needed.
-			// profiler.BlockProfile,
-			// profiler.MutexProfile,
-			// profiler.GoroutineProfile,
 		),
 	); err != nil {
 		log.Fatal(err)
@@ -67,6 +78,16 @@ func main() {
 		child2.Finish()
 
 		w.Write([]byte("Hello World!"))
+
+		log.WithFields(log.Fields{
+			"Fibonacci":   fibAnswer,
+			"Factorial":   factAnswer,
+			"dd.trace_id": child1.Context().TraceID(),
+			"dd.span_id":  child1.Context().SpanID(),
+		}).Info("Input Number is 12")
+
+		// log.Printf("CHILD 1 Log Message : %v", child1)
+
 	})
 	http.ListenAndServe(":8080", mux)
 }
